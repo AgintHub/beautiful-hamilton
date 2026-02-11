@@ -1,0 +1,103 @@
+dag_type: plain_text
+description: A workflow for building a quality investigation AI agent for the engineering
+  team
+name: build_quality_investigation_ai_agent
+nodes:
+  clarify_engineering_team_objectives:
+    agent: false
+    description: Identify the key objectives of the engineering team requesting this
+      quality investigation AI agent
+    name: clarify_engineering_team_objectives
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: What are the primary objectives of the engineering team requesting this
+      quality investigation AI agent? List key objectives and any relevant constraints.
+  create_data_ingestion_pipeline:
+    agent: false
+    description: Create the data ingestion pipeline to collect and preprocess required
+      data
+    name: create_data_ingestion_pipeline
+    nodes_depended_on:
+    - design_data_pipeline
+    nodes_dependent_on: []
+    prompt: Implement the data ingestion pipeline to collect and preprocess the required
+      data. Describe any relevant data quality checks and error handling mechanisms.
+  deploy_quality_investigation_ai_agent:
+    agent: false
+    description: Deploy the quality investigation AI agent to the production environment
+    name: deploy_quality_investigation_ai_agent
+    nodes_depended_on:
+    - test_quality_investigation_ai_agent
+    nodes_dependent_on: []
+    prompt: Deploy the quality investigation AI agent to the production environment.
+      Describe any relevant deployment scripts, configuration files, or monitoring
+      tools.
+  design_data_pipeline:
+    agent: false
+    description: Design a data pipeline to collect, process, and store necessary data
+    name: design_data_pipeline
+    nodes_depended_on:
+    - determine_data_requirements
+    nodes_dependent_on: []
+    prompt: What data pipeline architecture will be required to collect, process,
+      and store the necessary data for the quality investigation AI agent? Describe
+      data ingestion, processing, and storage components.
+  determine_data_requirements:
+    agent: false
+    description: Determine the required data for the quality investigation AI agent
+    name: determine_data_requirements
+    nodes_depended_on:
+    - research_investigation_use_cases
+    nodes_dependent_on: []
+    prompt: Based on the use cases, what types of data will be required for the quality
+      investigation AI agent to function? Describe data formats, sources, and any
+      relevant data quality requirements.
+  develop_quality_investigation_model:
+    agent: false
+    description: Develop a quality investigation model to analyze collected data
+    name: develop_quality_investigation_model
+    nodes_depended_on:
+    - create_data_ingestion_pipeline
+    nodes_dependent_on: []
+    prompt: Design and train a quality investigation model to analyze the collected
+      data. Describe the chosen algorithm, hyperparameters, and any relevant feature
+      engineering techniques.
+  integrate_quality_investigation_model:
+    agent: false
+    description: Integrate the quality investigation model into the AI agent architecture
+    name: integrate_quality_investigation_model
+    nodes_depended_on:
+    - develop_quality_investigation_model
+    nodes_dependent_on: []
+    prompt: Integrate the quality investigation model into the larger AI agent architecture.
+      Describe any relevant user interfaces, APIs, or messaging queues.
+  operate_and_maintain_quality_investigation_ai_agent:
+    agent: false
+    description: Operate and maintain the quality investigation AI agent for scalability
+      and reliability
+    name: operate_and_maintain_quality_investigation_ai_agent
+    nodes_depended_on:
+    - deploy_quality_investigation_ai_agent
+    nodes_dependent_on: []
+    prompt: Develop a plan for ongoing operation and maintenance of the quality investigation
+      AI agent. Describe any relevant monitoring, logging, and update procedures.
+  research_investigation_use_cases:
+    agent: false
+    description: Research common use cases for quality investigation AI agents in
+      the engineering team
+    name: research_investigation_use_cases
+    nodes_depended_on:
+    - clarify_engineering_team_objectives
+    nodes_dependent_on: []
+    prompt: What specific use cases will the quality investigation AI agent be used
+      for? Describe the types of investigations, data sources, and any relevant stakeholders.
+  test_quality_investigation_ai_agent:
+    agent: false
+    description: Test the quality investigation AI agent for performance, accuracy,
+      and usability
+    name: test_quality_investigation_ai_agent
+    nodes_depended_on:
+    - integrate_quality_investigation_model
+    nodes_dependent_on: []
+    prompt: Perform thorough testing and validation of the quality investigation AI
+      agent. Describe any relevant testing frameworks, data sets, and testing scenarios.
