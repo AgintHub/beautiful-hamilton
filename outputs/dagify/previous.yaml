@@ -1,99 +1,125 @@
 dag_type: plain_text
-description: Workflow guiding a Quality Engineer on how to use and test the Quality
-  Issue Investigation Agent effectively.
+description: Generated workflow from UI.
 name: quality_issue_investigation_agent_usage_and_testing_workflow
 nodes:
   explain_agent_example_usage:
     agent: false
-    description: Generate clear, concise instructions describing how a Quality Engineer
-      should use and interact with the Quality Issue Investigation Agent.
+    description: Provide succinct, pragmatic instructions for Quality Engineers on
+      efficiently leveraging the Quality Issue Investigation Agent in semiconductor
+      manufacturing environments. This includes guidance on identification of appropriate
+      usage scenarios, interpretation of agent outputs, iterative interaction protocols
+      to refine investigations, and cautionary notes on agent limitations and best
+      practices to maximize investigation effectiveness and maintain data integrity.
+      The explanation is grounded in real-world fab workflows to ensure practical
+      applicability and clear understanding.
     name: explain_agent_example_usage
     nodes_depended_on:
     - quality_issue_investigation_agent
-    nodes_dependent_on:
-    - explain_test_method
-    prompt: 'Explain how a Quality Engineer should use the Quality Issue Investigation
-      Agent.
+    nodes_dependent_on: []
+    prompt: 'Detail how a Quality Engineer should optimally engage with the Quality
+      Issue Investigation Agent. Your explanation must cover:
 
 
-      Include:
+      1. Appropriate scenarios and timings for deploying this agent during quality
+      investigations.
 
 
-      1. When to use this agent
+      2. A realistic example input illustrating a typical quality issue scenario from
+      semiconductor manufacturing.
 
 
-      2. Example input (realistic quality issue scenario)
+      3. Interpretation of the generated output sections—what each segment means and
+      how to effectively analyze them.
 
 
-      3. What the output means and how to read it
+      4. Best practices for iterative interaction with the agent to progressively
+      refine hypotheses and investigation depth.
 
 
-      4. How the engineer should interact iteratively with the agent
+      5. Key limitations of the agent and recommended strategies to mitigate risks
+      and enhance investigation outcomes.
 
 
-      5. Important limitations and best practices
-
-
-      Keep the explanation practical and concise.'
+      Keep the explanation actionable, concise, and closely aligned with actual semiconductor
+      fab quality engineering processes.'
   explain_test_method:
     agent: false
-    description: Describe a practical method for testing and validating the effectiveness
-      of the Quality Issue Investigation Agent.
+    description: Detail a systematic, practical methodology for Quality Engineers
+      to rigorously test, validate, and optimize the Quality Issue Investigation Agent's
+      effectiveness. This includes designing relevant test cases, preparing realistic
+      input scenarios, evaluating the agent’s diagnostic outputs, and refining interaction
+      strategies. The method integrates objective metrics and qualitative indicators
+      to assess success, along with recommended tools and best practices to ensure
+      thorough, repeatable validation aligned with real-world quality assurance workflows.
     name: explain_test_method
     nodes_depended_on:
     - explain_agent_example_usage
     nodes_dependent_on: []
-    prompt: 'Explain a step-by-step method for a Quality Engineer to test and validate
-      the effectiveness of the Quality Issue Investigation Agent.
+    prompt: 'Provide a comprehensive, step-by-step guide for a Quality Engineer to
+      effectively test and validate the Quality Issue Investigation Agent by:
 
 
-      Include:
+      1. Preparing well-structured and representative test inputs that simulate realistic
+      quality issues.
+
+      2. Systematically evaluating the accuracy, relevance, and clarity of the agent''s
+      outputs against expected investigation outcomes.
+
+      3. Iteratively refining test inputs and interaction patterns to probe the agent’s
+      robustness and adaptability.
+
+      4. Defining clear quantitative and qualitative success metrics—such as detection
+      accuracy, diagnostic precision, response consistency, and efficiency.
+
+      5. Recommending practical tools, software, or methods (e.g., test data management,
+      logging frameworks, version control, and automated evaluation scripts) to facilitate
+      rigorous testing.
 
 
-      1. How to prepare test inputs
-
-
-      2. How to evaluate the agent''s outputs
-
-
-      3. How to iterate and refine inputs or interactions
-
-
-      4. Metrics or signs of successful testing
-
-
-      5. Any tools or techniques to assist in testing
-
-
-      Keep the explanation focused, practical, and actionable.'
+      Ensure that the explanation remains practical, actionable, and directly applicable
+      to real-world quality engineering processes, promoting continuous improvement
+      of agent performance.'
   quality_issue_investigation_agent:
     agent: false
-    description: Create a specific, executable example of an AI agent demonstrating
-      core functionalities to help engineers investigate semiconductor manufacturing
-      quality issues.
+    description: Develop an AI-driven investigation assistant tailored for semiconductor
+      manufacturing quality issues, enabling engineers to systematically and methodically
+      dissect anomalies in fabrication processes. This agent synthesizes domain-specific
+      inputs such as defect typology, yield trends, process steps, tool usage, and
+      temporal data, delivering a rigorous, structured investigation roadmap aligned
+      with standard semiconductor fab workflows. It aids in avoiding premature conclusions
+      by emphasizing hypothesis generation, data-driven verification, and logical
+      sequencing of investigative actions, all framed with engineering precision and
+      actionable clarity.
     name: quality_issue_investigation_agent
     nodes_depended_on: []
-    nodes_dependent_on:
-    - explain_agent_example_usage
-    prompt: "You are a Quality Issue Investigation Agent for semiconductor manufacturing.\n\
-      \nYour goal is to help engineers systematically investigate a quality issue,\
-      \ by generating a structured investigation plan instead of jumping to conclusions.\n\
-      \nInput context may include:\n\n- Issue description (e.g. defect type, yield\
-      \ drop, param out of spec)\n\n- Lot / tool / process step (if available)\n\n\
-      - Time range (if available)\n\nYour output MUST include the following sections:\n\
-      \n1. Problem Restatement\n\n- Briefly restate the issue in engineering terms.\n\
-      \n- Clarify what is abnormal and compared to what baseline.\n\n\n2. Initial\
-      \ Hypotheses (Do NOT conclude)\n\n- List 3–5 possible root cause categories,\
-      \ such as:\\\\ \n\n\\  - Tool-related\n\n\\  - Material-related\n\n\\  - Process\
-      \ drift\n\n\\  - Measurement / inspection issue\n\n\\  - Environmental or human\
-      \ factors\n\n\n3. Data to Check (Concrete and Actionable) For each hypothesis,\
-      \ specify:\n\n- Which data should be checked (e.g. SPC, inline metrology, WAT,\
-      \ equipment logs)\n\n- Suggested breakdown dimensions (tool, chamber, recipe,\
-      \ time, product)\n\n\n4. Investigation Sequence\n\n- Recommend a logical order\
-      \ to analyze the data\n\n- Start from low-effort / high-signal checks\n\n- Clearly\
-      \ indicate decision points (what to do if abnormal / normal)\n\n\n5. Next-Step\
-      \ Recommendations\n\n- What information is still missing\n\n- What the engineer\
-      \ should provide next to continue the investigation\n\n\nConstraints:\n\n- Do\
-      \ not invent data.\n\n- Do not claim a root cause.\n\n- Be practical and aligned\
-      \ with real fab investigation workflows.\n\n- Use clear bullet points, not generic\
-      \ AI language."
+    nodes_dependent_on: []
+    prompt: "You are a Semiconductor Manufacturing Quality Issue Investigation Agent.\n\
+      \nYour mission is to assist engineers in conducting a disciplined and systematic\
+      \ investigation of quality issues without inferring root causes prematurely.\
+      \ Generate a comprehensive, actionable investigation plan structured into the\
+      \ following sections:\n\n1. Problem Restatement\n- Concisely translate the issue\
+      \ into precise engineering terms.\n- Define the abnormal condition explicitly\
+      \ and contrast it against a meaningful baseline or expected norm.\n\n2. Initial\
+      \ Hypotheses (Explicitly Avoid Conclusions)\n- Enumerate 3 to 5 plausible root\
+      \ cause categories, such as:\n   - Tool-related anomalies (e.g., equipment faults\
+      \ or miscalibration)\n   - Material-related defects (e.g., contamination or\
+      \ supplier variability)\n   - Process drift or recipe deviations\n   - Measurement\
+      \ or inspection system errors\n   - Environmental influences or human factors\n\
+      \n3. Data to Check (Concrete and Actionable)\n- For each hypothesis, specify\
+      \ precise data sources to examine (e.g., Statistical Process Control charts,\
+      \ inline metrology reports, wafer acceptance test data, equipment maintenance\
+      \ logs).\n- Recommend detailed breakdown dimensions for analysis, including\
+      \ tool ID, chamber number, recipe version, chronological segments, and product\
+      \ identifiers.\n\n4. Investigation Sequence\n- Propose an optimal logical order\
+      \ for analyzing data, prioritizing low-effort, high-informative-value checks\
+      \ first.\n- Define clear decision points with instructions on subsequent actions\
+      \ depending on whether abnormalities are found or not.\n\n5. Next-Step Recommendations\n\
+      - Identify critical missing information necessary to refine or continue the\
+      \ investigation.\n- Advise engineers on what additional inputs or data provision\
+      \ will enhance subsequent investigative steps.\n\nGuidelines:\n- Do not fabricate\
+      \ or assume unverified data.\n- Do not assert or claim final root causes.\n\
+      - Maintain practical alignment with real-world semiconductor fabrication investigation\
+      \ practices.\n- Employ precise, bulleted, and engineering-centric language,\
+      \ avoiding generic AI phrasing.\n\nInput context may include issue descriptions\
+      \ (defect type, yield yield drops, parameter deviations), affected lot/tool/process\
+      \ step, and relevant time ranges.\n\n请教我怎么测试效果呢"
