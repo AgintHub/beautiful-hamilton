@@ -1,99 +1,43 @@
-dag_type: typed
+dag_type: plain_text
 description: Generated workflow from UI.
 name: 简版质量问题调查代理流程理解及总结建议
 nodes:
   制定初步假设:
     agent: false
-    description: 基于问题重述，提出3至5个潜在的根因类别，帮助聚焦调查方向。
+    description: 基于工程专业术语精确定义的问题重述，系统地识别并提出3至5个关键且可能的根因类别（如设备异常、材料缺陷、工艺漂移等），以科学聚焦调查方向。确保每个类别不仅明确，还能涵盖潜在影响面，同时为后续验证和分析环节奠定坚实基础。此步骤还包括对初步假设的综合评估与总结，提出后续调查重点和建议，促进问题解决的系统性和针对性。
     name: 制定初步假设
     nodes_depended_on:
     - 定义问题重述
     nodes_dependent_on: []
-    output_structure:
-    - description: 列出3到5个可能的根因类别名称
-      key: root_cause_categories
-      type: List[str]
-    - description: 对应根因类别的简要选择理由说明
-      key: selection_reasons
-      type: List[str]
-    prompt: 根据问题重述，列出3到5个可能的根因类别（如设备异常、材料缺陷、工艺漂移等），并简要说明选择理由。
+    prompt: 结合工程专业术语准确表达的问题重述，系统列出3至5个最具代表性且具备潜在影响力的根因类别（如设备异常、材料缺陷、工艺漂移等）。请详细说明每个类别被选取的理由、其与质量异常的关联性以及可能的影响范围。完成根因类别识别后，请对所有初步假设进行综合汇总，提出明确的调查重点和针对性建议，为后续深入分析提供科学指导。
   定义问题重述:
     agent: false
-    description: 用工程专业术语准确表述质量问题，明确异常表现及与预期的差异，作为调查基础。
+    description: 运用工程领域专业术语，精准且系统地表述质量异常问题，详述异常表现形式及其与设计预期、工艺基线或规范的偏差，建立科学且全面的问题定义框架，为后续调查分析和根因诊断奠定坚实基础。同时结合多源数据综合汇总，形成清晰一致的问题陈述，提升沟通效率与问题追踪的准确性。
     name: 定义问题重述
     nodes_depended_on: []
     nodes_dependent_on: []
-    output_structure:
-    - description: 用工程专业术语准确描述当前的质量问题
-      key: quality_issue_statement
-      type: str
-    - description: 质量问题的异常表现详细描述
-      key: abnormal_performance_description
-      type: str
-    - description: 质量问题实际表现与预期或基线的具体差异描述
-      key: expected_vs_actual_difference
-      type: str
-    prompt: 请用工程专业术语准确表述当前的质量问题，描述其异常表现和与预期或基线的差异。
+    prompt: 请运用工程专业术语，从多维度精准、系统地描述当前质量问题，明确指出异常表现形式，详细阐述其与设计预期、工艺基线或规范之间的具体差异。在陈述时，结合已有检测数据、工艺参数及现场观察，综合汇总关键信息，生成清晰且结构化的问题定义报告，便于后续深入调查和根因分析。如有必要，请给出初步的改进建议或问题概述以辅助决策。
   指定检查数据:
     agent: false
-    description: 为每个根因类别指定需要收集和分析的数据类型及来源，支持后续验证。
+    description: 明确针对每个初步根因类别，系统制定需收集和分析的关键数据类型、精准数据来源及分析维度，确保数据支持后续验证与深入分析，同时安排数据汇总和建议输出，推动根因验证和优化决策的高效闭环。
     name: 指定检查数据
     nodes_depended_on:
     - 制定初步假设
     nodes_dependent_on: []
-    output_structure:
-    - description: 列出的3到5个根因类别名称
-      key: root_cause_categories
-      type: List[str]
-    - description: 每个根因类别对应需采集的数据类型，例如设备编号、时间范围等
-      key: data_types
-      type: List[str]
-    - description: 每个根因类别对应数据的来源，如设备传感器、生产记录等
-      key: data_sources
-      type: List[str]
-    - description: 分析维度，用于数据采集和分析的关键字段，如配方版本、设备编号等
-      key: analysis_dimensions
-      type: List[str]
-    prompt: 针对每个初步假设，明确需采集的数据类型、来源及分析维度（如设备编号、时间范围、配方版本等）。
+    prompt: 针对每个初步假设，全面明确需采集的数据类型、来源和分析维度（例如设备编号、时间范围、配方版本、传感器日志、操作记录等），并组织汇总所获数据，结合初步分析结果提供针对性建议，以指导后续验证步骤和优化措施。
   规划调查顺序:
     agent: false
-    description: 设计调查执行的逻辑顺序和决策点，优先低成本且信息量大的检查，指导具体实施。
+    description: 系统化设计调查执行的逻辑顺序及关键决策节点，优先安排低成本、高信息量的检查环节，确保资源高效利用。结合指定检查数据，构建动态调整的调查方案，支持基于中间结果的灵活决策和后续步骤优化，最终形成全面且针对性的调查流程指导。
     name: 规划调查顺序
     nodes_depended_on:
     - 指定检查数据
     nodes_dependent_on: []
-    output_structure:
-    - description: 按执行顺序排列的检查项目名称
-      key: check_items
-      type: List[str]
-    - description: 对应每个检查项目的优先级，数值越小优先级越高
-      key: check_priorities
-      type: List[int]
-    - description: 关键决策点描述，对应检查项目中需要做出的判定或选择
-      key: decision_points
-      type: List[str]
-    - description: 根据检查结果调整调查方案的具体说明或规则
-      key: adjustment_rules
-      type: List[str]
-    prompt: 基于指定的数据，规划调查顺序，包含优先级和决策点，说明如何根据结果调整调查方案。
+    prompt: 基于指定检查数据，智能规划调查执行顺序，明确各检查项的优先级及关键决策点。针对每个阶段的检查结果，提供详尽的调整方案和后续执行建议，确保调查路径动态优化，以降低资源消耗并最大化信息获取效率。请在完成调查顺序规划后，综合评估整体方案效果，给出优化建议或必要的补充步骤，以提升调查的系统性和有效性。
   调查结果汇总与建议:
     agent: false
-    description: 汇总前期调查结果，分析重点发现，提出针对性的改进建议和后续行动方案，帮助决策支持。
+    description: 全面整合前期设计并执行的调查数据，系统性分析关键信息与根本原因，科学归纳重大发现，进而制定精准且行之有效的改进建议及后续行动方案，确保为组织决策提供强有力的支持与保障。同时，针对调查过程中的不足和潜在风险提出合理优化措施，促进持续改进和高效执行。
     name: 调查结果汇总与建议
     nodes_depended_on:
     - 规划调查顺序
     nodes_dependent_on: []
-    output_structure:
-    - description: 系统汇总的调查发现，涵盖所有关键观察和数据分析的总结
-      key: summary_findings
-      type: str
-    - description: 归纳的关键根因类别，突出主要导致质量问题的因素
-      key: key_root_causes
-      type: List[str]
-    - description: 针对关键根因提出的切实可行的改进建议列表
-      key: improvement_suggestions
-      type: List[str]
-    - description: 推荐的后续行动方案，支持持续改进和问题解决
-      key: next_actions
-      type: List[str]
-    prompt: 根据规划的调查顺序及执行结果，系统汇总调查发现，归纳关键根因，并提出切实可行的改进建议或下一步行动方案。
+    prompt: 基于已规划的调查顺序和执行结果，系统梳理并汇总所有调查数据，深入分析关键根因和核心发现，准确提炼重点问题。综合调查复杂度与影响程度，提出切实可行、优先度明确的改进建议和下一步行动方案，明确责任人和时间节点。同时对调查流程进行评估，识别优化空间和潜在风险，给出科学的流程完善建议，助力后续措施更高效、更具针对性地实施。
