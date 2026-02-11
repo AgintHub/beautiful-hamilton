@@ -1,5 +1,5 @@
-dag_type: plain_text
-description: 对质量问题进行系统性调查，涵盖问题定义、假设制定、检查数据确定、调查顺序规划，最后对调查结果进行汇总与建议，以支持决策。
+dag_type: typed
+description: Generated workflow from UI.
 name: 简版质量问题调查代理流程理解及总结建议
 nodes:
   制定初步假设:
@@ -8,16 +8,31 @@ nodes:
     name: 制定初步假设
     nodes_depended_on:
     - 定义问题重述
-    nodes_dependent_on:
-    - 指定检查数据
+    nodes_dependent_on: []
+    output_structure:
+    - description: 列出3到5个可能的根因类别名称
+      key: root_cause_categories
+      type: List[str]
+    - description: 对应根因类别的简要选择理由说明
+      key: selection_reasons
+      type: List[str]
     prompt: 根据问题重述，列出3到5个可能的根因类别（如设备异常、材料缺陷、工艺漂移等），并简要说明选择理由。
   定义问题重述:
     agent: false
     description: 用工程专业术语准确表述质量问题，明确异常表现及与预期的差异，作为调查基础。
     name: 定义问题重述
     nodes_depended_on: []
-    nodes_dependent_on:
-    - 制定初步假设
+    nodes_dependent_on: []
+    output_structure:
+    - description: 用工程专业术语准确描述当前的质量问题
+      key: quality_issue_statement
+      type: str
+    - description: 质量问题的异常表现详细描述
+      key: abnormal_performance_description
+      type: str
+    - description: 质量问题实际表现与预期或基线的具体差异描述
+      key: expected_vs_actual_difference
+      type: str
     prompt: 请用工程专业术语准确表述当前的质量问题，描述其异常表现和与预期或基线的差异。
   指定检查数据:
     agent: false
@@ -25,8 +40,20 @@ nodes:
     name: 指定检查数据
     nodes_depended_on:
     - 制定初步假设
-    nodes_dependent_on:
-    - 规划调查顺序
+    nodes_dependent_on: []
+    output_structure:
+    - description: 列出的3到5个根因类别名称
+      key: root_cause_categories
+      type: List[str]
+    - description: 每个根因类别对应需采集的数据类型，例如设备编号、时间范围等
+      key: data_types
+      type: List[str]
+    - description: 每个根因类别对应数据的来源，如设备传感器、生产记录等
+      key: data_sources
+      type: List[str]
+    - description: 分析维度，用于数据采集和分析的关键字段，如配方版本、设备编号等
+      key: analysis_dimensions
+      type: List[str]
     prompt: 针对每个初步假设，明确需采集的数据类型、来源及分析维度（如设备编号、时间范围、配方版本等）。
   规划调查顺序:
     agent: false
@@ -34,8 +61,20 @@ nodes:
     name: 规划调查顺序
     nodes_depended_on:
     - 指定检查数据
-    nodes_dependent_on:
-    - 调查结果汇总与建议
+    nodes_dependent_on: []
+    output_structure:
+    - description: 按执行顺序排列的检查项目名称
+      key: check_items
+      type: List[str]
+    - description: 对应每个检查项目的优先级，数值越小优先级越高
+      key: check_priorities
+      type: List[int]
+    - description: 关键决策点描述，对应检查项目中需要做出的判定或选择
+      key: decision_points
+      type: List[str]
+    - description: 根据检查结果调整调查方案的具体说明或规则
+      key: adjustment_rules
+      type: List[str]
     prompt: 基于指定的数据，规划调查顺序，包含优先级和决策点，说明如何根据结果调整调查方案。
   调查结果汇总与建议:
     agent: false
@@ -44,4 +83,17 @@ nodes:
     nodes_depended_on:
     - 规划调查顺序
     nodes_dependent_on: []
+    output_structure:
+    - description: 系统汇总的调查发现，涵盖所有关键观察和数据分析的总结
+      key: summary_findings
+      type: str
+    - description: 归纳的关键根因类别，突出主要导致质量问题的因素
+      key: key_root_causes
+      type: List[str]
+    - description: 针对关键根因提出的切实可行的改进建议列表
+      key: improvement_suggestions
+      type: List[str]
+    - description: 推荐的后续行动方案，支持持续改进和问题解决
+      key: next_actions
+      type: List[str]
     prompt: 根据规划的调查顺序及执行结果，系统汇总调查发现，归纳关键根因，并提出切实可行的改进建议或下一步行动方案。

@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: 简化的流程，帮助快速理解质量问题调查代理的核心过程。
-name: 简版质量问题调查代理流程理解
+description: 对质量问题进行系统性调查，涵盖问题定义、假设制定、检查数据确定、调查顺序规划，最后对调查结果进行汇总与建议，以支持决策。
+name: 简版质量问题调查代理流程理解及总结建议
 nodes:
   制定初步假设:
     agent: false
@@ -34,5 +34,14 @@ nodes:
     name: 规划调查顺序
     nodes_depended_on:
     - 指定检查数据
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - 调查结果汇总与建议
     prompt: 基于指定的数据，规划调查顺序，包含优先级和决策点，说明如何根据结果调整调查方案。
+  调查结果汇总与建议:
+    agent: false
+    description: 汇总前期调查结果，分析重点发现，提出针对性的改进建议和后续行动方案，帮助决策支持。
+    name: 调查结果汇总与建议
+    nodes_depended_on:
+    - 规划调查顺序
+    nodes_dependent_on: []
+    prompt: 根据规划的调查顺序及执行结果，系统汇总调查发现，归纳关键根因，并提出切实可行的改进建议或下一步行动方案。
