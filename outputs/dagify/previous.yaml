@@ -1,16 +1,17 @@
 dag_type: plain_text
-description: Generated workflow from UI with connected nodes to allow running and
-  testing of the Quality Issue Investigation Agent and its usage explanation.
-name: direct_agent_example_workflow
+description: Workflow guiding a Quality Engineer on how to use and test the Quality
+  Issue Investigation Agent effectively.
+name: quality_issue_investigation_agent_usage_and_testing_workflow
 nodes:
   explain_agent_example_usage:
     agent: false
-    description: Generate clear, concise instructions on how to execute and interact
-      with the given AI agent example.
+    description: Generate clear, concise instructions describing how a Quality Engineer
+      should use and interact with the Quality Issue Investigation Agent.
     name: explain_agent_example_usage
     nodes_depended_on:
-    - plainnodedefinition_1
-    nodes_dependent_on: []
+    - quality_issue_investigation_agent
+    nodes_dependent_on:
+    - explain_test_method
     prompt: 'Explain how a Quality Engineer should use the Quality Issue Investigation
       Agent.
 
@@ -34,11 +35,43 @@ nodes:
 
 
       Keep the explanation practical and concise.'
-  plainnodedefinition_1:
+  explain_test_method:
     agent: false
-    description: Create a specific, executable example of an AI agent that demonstrates
-      the core functionalities as requested.
-    name: plainnodedefinition_1
+    description: Describe a practical method for testing and validating the effectiveness
+      of the Quality Issue Investigation Agent.
+    name: explain_test_method
+    nodes_depended_on:
+    - explain_agent_example_usage
+    nodes_dependent_on: []
+    prompt: 'Explain a step-by-step method for a Quality Engineer to test and validate
+      the effectiveness of the Quality Issue Investigation Agent.
+
+
+      Include:
+
+
+      1. How to prepare test inputs
+
+
+      2. How to evaluate the agent''s outputs
+
+
+      3. How to iterate and refine inputs or interactions
+
+
+      4. Metrics or signs of successful testing
+
+
+      5. Any tools or techniques to assist in testing
+
+
+      Keep the explanation focused, practical, and actionable.'
+  quality_issue_investigation_agent:
+    agent: false
+    description: Create a specific, executable example of an AI agent demonstrating
+      core functionalities to help engineers investigate semiconductor manufacturing
+      quality issues.
+    name: quality_issue_investigation_agent
     nodes_depended_on: []
     nodes_dependent_on:
     - explain_agent_example_usage
@@ -51,7 +84,7 @@ nodes:
       \n1. Problem Restatement\n\n- Briefly restate the issue in engineering terms.\n\
       \n- Clarify what is abnormal and compared to what baseline.\n\n\n2. Initial\
       \ Hypotheses (Do NOT conclude)\n\n- List 3–5 possible root cause categories,\
-      \ such as:\\ \n\n\\  - Tool-related\n\n\\  - Material-related\n\n\\  - Process\
+      \ such as:\\\\ \n\n\\  - Tool-related\n\n\\  - Material-related\n\n\\  - Process\
       \ drift\n\n\\  - Measurement / inspection issue\n\n\\  - Environmental or human\
       \ factors\n\n\n3. Data to Check (Concrete and Actionable) For each hypothesis,\
       \ specify:\n\n- Which data should be checked (e.g. SPC, inline metrology, WAT,\
