@@ -1,5 +1,5 @@
 dag_type: typed
-description: Generated workflow from UI.
+description: 回滚到上一个版本，恢复原始版本的简版质量问题调查代理流程，包括所有节点、依赖关系和详尽的输出结构，确保完整且准确的流程执行。
 name: 简版质量问题调查代理流程理解及总结建议
 nodes:
   制定初步假设:
@@ -8,7 +8,8 @@ nodes:
     name: 制定初步假设
     nodes_depended_on:
     - 定义问题重述
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - 指定检查数据
     output_structure:
     - description: List of 3 to 5 key root cause category names identified
       key: root_cause_categories
@@ -41,7 +42,8 @@ nodes:
     description: 运用工程领域专业术语，精准且系统地表述质量异常问题，详述异常表现形式及其与设计预期、工艺基线或规范的偏差，建立科学且全面的问题定义框架，为后续调查分析和根因诊断奠定坚实基础。同时结合多源数据综合汇总，形成清晰一致的问题陈述，提升沟通效率与问题追踪的准确性。
     name: 定义问题重述
     nodes_depended_on: []
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - 制定初步假设
     output_structure:
     - description: 全面且结构化的问题定义报告，包含质量异常的总体描述
       key: problem_summary
@@ -65,7 +67,8 @@ nodes:
     name: 指定检查数据
     nodes_depended_on:
     - 制定初步假设
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - 规划调查顺序
     output_structure:
     - description: 初步根因类别名称列表，例如设备异常、材料缺陷、工艺漂移等
       key: cause_categories
@@ -92,7 +95,8 @@ nodes:
     name: 规划调查顺序
     nodes_depended_on:
     - 指定检查数据
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - 调查结果汇总与建议
     output_structure:
     - description: 按优先级排列的各检查项名称，体现调查执行的先后顺序
       key: check_item_order

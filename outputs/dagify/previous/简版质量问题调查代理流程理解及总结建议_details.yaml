@@ -1,4 +1,4 @@
-dag_type: plain_text
+dag_type: typed
 description: Generated workflow from UI.
 name: 简版质量问题调查代理流程理解及总结建议
 nodes:
@@ -9,6 +9,32 @@ nodes:
     nodes_depended_on:
     - 定义问题重述
     nodes_dependent_on: []
+    output_structure:
+    - description: List of 3 to 5 key root cause category names identified
+      key: root_cause_categories
+      type: List[str]
+    - description: List of reasons for selecting each root cause category corresponding
+        to root_cause_categories
+      key: root_cause_reasons
+      type: List[str]
+    - description: List describing the association of each root cause category with
+        the quality abnormality
+      key: root_cause_relationships
+      type: List[str]
+    - description: List describing the possible impact range of each root cause category
+      key: root_cause_impact_scopes
+      type: List[str]
+    - description: Comprehensive summary and evaluation of all preliminary root cause
+        hypotheses
+      key: summary_of_hypotheses
+      type: str
+    - description: Clear instructions for subsequent investigation focus points derived
+        from hypotheses
+      key: investigation_focus
+      type: str
+    - description: Targeted recommendations to guide further in-depth analysis
+      key: investigation_recommendations
+      type: str
     prompt: 结合工程专业术语准确表达的问题重述，系统列出3至5个最具代表性且具备潜在影响力的根因类别（如设备异常、材料缺陷、工艺漂移等）。请详细说明每个类别被选取的理由、其与质量异常的关联性以及可能的影响范围。完成根因类别识别后，请对所有初步假设进行综合汇总，提出明确的调查重点和针对性建议，为后续深入分析提供科学指导。
   定义问题重述:
     agent: false
@@ -16,6 +42,22 @@ nodes:
     name: 定义问题重述
     nodes_depended_on: []
     nodes_dependent_on: []
+    output_structure:
+    - description: 全面且结构化的问题定义报告，包含质量异常的总体描述
+      key: problem_summary
+      type: str
+    - description: 异常表现形式的详细说明
+      key: abnormal_performance
+      type: str
+    - description: 异常与设计预期、工艺基线或规范的具体偏差说明
+      key: deviation_from_design
+      type: str
+    - description: 用于描述问题的关键检测数据和工艺参数等信息来源
+      key: key_data_sources
+      type: List[str]
+    - description: 初步的改进建议或问题概述以辅助决策，可为空
+      key: initial_improvement_suggestions
+      type: str
     prompt: 请运用工程专业术语，从多维度精准、系统地描述当前质量问题，明确指出异常表现形式，详细阐述其与设计预期、工艺基线或规范之间的具体差异。在陈述时，结合已有检测数据、工艺参数及现场观察，综合汇总关键信息，生成清晰且结构化的问题定义报告，便于后续深入调查和根因分析。如有必要，请给出初步的改进建议或问题概述以辅助决策。
   指定检查数据:
     agent: false
@@ -24,6 +66,25 @@ nodes:
     nodes_depended_on:
     - 制定初步假设
     nodes_dependent_on: []
+    output_structure:
+    - description: 初步根因类别名称列表，例如设备异常、材料缺陷、工艺漂移等
+      key: cause_categories
+      type: List[str]
+    - description: 针对每个根因类别需采集的数据类型列表，对应cause_categories顺序
+      key: data_types_per_category
+      type: List[str]
+    - description: 针对每个根因类别需采集的数据来源描述，对应cause_categories顺序
+      key: data_sources_per_category
+      type: List[str]
+    - description: 针对每个根因类别设计的分析维度描述，对应cause_categories顺序
+      key: analysis_dimensions_per_category
+      type: List[str]
+    - description: 汇总的已采集数据的总体描述和关键信息总结
+      key: data_summary
+      type: str
+    - description: 结合初步分析结果给出的针对性建议及优化措施指导
+      key: targeted_suggestions
+      type: str
     prompt: 针对每个初步假设，全面明确需采集的数据类型、来源和分析维度（例如设备编号、时间范围、配方版本、传感器日志、操作记录等），并组织汇总所获数据，结合初步分析结果提供针对性建议，以指导后续验证步骤和优化措施。
   规划调查顺序:
     agent: false
@@ -32,6 +93,25 @@ nodes:
     nodes_depended_on:
     - 指定检查数据
     nodes_dependent_on: []
+    output_structure:
+    - description: 按优先级排列的各检查项名称，体现调查执行的先后顺序
+      key: check_item_order
+      type: List[str]
+    - description: 对应检查项的优先级，数值越小优先级越高
+      key: priority_levels
+      type: List[int]
+    - description: 调查流程中的关键决策节点描述，指示需根据检查结果进行判断和调整的环节
+      key: key_decision_points
+      type: List[str]
+    - description: 针对每个阶段检查结果给出的后续调整方案和执行建议
+      key: adjustment_plans
+      type: List[str]
+    - description: 对整体调查方案的综合评估及优化建议
+      key: optimization_suggestions
+      type: str
+    - description: 调查流程中建议增加的补充步骤或措施
+      key: supplementary_steps
+      type: List[str]
     prompt: 基于指定检查数据，智能规划调查执行顺序，明确各检查项的优先级及关键决策点。针对每个阶段的检查结果，提供详尽的调整方案和后续执行建议，确保调查路径动态优化，以降低资源消耗并最大化信息获取效率。请在完成调查顺序规划后，综合评估整体方案效果，给出优化建议或必要的补充步骤，以提升调查的系统性和有效性。
   调查结果汇总与建议:
     agent: false
@@ -40,4 +120,35 @@ nodes:
     nodes_depended_on:
     - 规划调查顺序
     nodes_dependent_on: []
+    output_structure:
+    - description: 科学归纳的重大调查发现摘要
+      key: key_findings_summary
+      type: str
+    - description: 关键根因和核心发现的分析报告
+      key: root_cause_analysis
+      type: str
+    - description: 提炼出的重点质量或流程问题列表
+      key: priority_issues
+      type: List[str]
+    - description: 切实可行的改进建议及优化措施
+      key: improvement_suggestions
+      type: List[str]
+    - description: 后续行动方案，包括具体步骤和实施要求
+      key: action_plan
+      type: List[str]
+    - description: 对应改进措施的责任人名单
+      key: responsible_persons
+      type: List[str]
+    - description: 每项行动措施对应的完成时间节点
+      key: deadlines
+      type: List[str]
+    - description: 对调查流程整体评估及效果分析
+      key: process_evaluation
+      type: str
+    - description: 调查过程中的不足与潜在风险点
+      key: identified_risks
+      type: List[str]
+    - description: 流程完善和优化的具体建议
+      key: process_optimization_suggestions
+      type: List[str]
     prompt: 基于已规划的调查顺序和执行结果，系统梳理并汇总所有调查数据，深入分析关键根因和核心发现，准确提炼重点问题。综合调查复杂度与影响程度，提出切实可行、优先度明确的改进建议和下一步行动方案，明确责任人和时间节点。同时对调查流程进行评估，识别优化空间和潜在风险，给出科学的流程完善建议，助力后续措施更高效、更具针对性地实施。
