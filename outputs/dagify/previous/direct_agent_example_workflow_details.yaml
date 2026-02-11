@@ -1,24 +1,66 @@
 dag_type: plain_text
-description: A workflow that directly produces a concrete example of an AI agent demonstrating
-  specific functionality, addressing the request for a tangible agent example rather
-  than broad explanations.
+description: Generated workflow from UI with connected nodes to allow running and
+  testing of the Quality Issue Investigation Agent and its usage explanation.
 name: direct_agent_example_workflow
 nodes:
-  design_agent_example_code:
-    agent: false
-    description: Create a specific, executable example of an AI agent that demonstrates
-      the core functionalities as requested.
-    name: design_agent_example_code
-    nodes_depended_on: []
-    nodes_dependent_on:
-    - explain_agent_example_usage
-    prompt: 请编写一个具体的AI Agent代码示例，展示其核心功能，确保示例可以直接运行，并体现系统能力，避免泛泛而谈。
   explain_agent_example_usage:
     agent: false
     description: Generate clear, concise instructions on how to execute and interact
       with the given AI agent example.
     name: explain_agent_example_usage
     nodes_depended_on:
-    - design_agent_example_code
+    - plainnodedefinition_1
     nodes_dependent_on: []
-    prompt: 请提供该AI Agent代码示例的使用说明，包括如何运行代码、输入要求、输出解释以及注意事项。
+    prompt: 'Explain how a Quality Engineer should use the Quality Issue Investigation
+      Agent.
+
+
+      Include:
+
+
+      1. When to use this agent
+
+
+      2. Example input (realistic quality issue scenario)
+
+
+      3. What the output means and how to read it
+
+
+      4. How the engineer should interact iteratively with the agent
+
+
+      5. Important limitations and best practices
+
+
+      Keep the explanation practical and concise.'
+  plainnodedefinition_1:
+    agent: false
+    description: Create a specific, executable example of an AI agent that demonstrates
+      the core functionalities as requested.
+    name: plainnodedefinition_1
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - explain_agent_example_usage
+    prompt: "You are a Quality Issue Investigation Agent for semiconductor manufacturing.\n\
+      \nYour goal is to help engineers systematically investigate a quality issue,\
+      \ by generating a structured investigation plan instead of jumping to conclusions.\n\
+      \nInput context may include:\n\n- Issue description (e.g. defect type, yield\
+      \ drop, param out of spec)\n\n- Lot / tool / process step (if available)\n\n\
+      - Time range (if available)\n\nYour output MUST include the following sections:\n\
+      \n1. Problem Restatement\n\n- Briefly restate the issue in engineering terms.\n\
+      \n- Clarify what is abnormal and compared to what baseline.\n\n\n2. Initial\
+      \ Hypotheses (Do NOT conclude)\n\n- List 3–5 possible root cause categories,\
+      \ such as:\\ \n\n\\  - Tool-related\n\n\\  - Material-related\n\n\\  - Process\
+      \ drift\n\n\\  - Measurement / inspection issue\n\n\\  - Environmental or human\
+      \ factors\n\n\n3. Data to Check (Concrete and Actionable) For each hypothesis,\
+      \ specify:\n\n- Which data should be checked (e.g. SPC, inline metrology, WAT,\
+      \ equipment logs)\n\n- Suggested breakdown dimensions (tool, chamber, recipe,\
+      \ time, product)\n\n\n4. Investigation Sequence\n\n- Recommend a logical order\
+      \ to analyze the data\n\n- Start from low-effort / high-signal checks\n\n- Clearly\
+      \ indicate decision points (what to do if abnormal / normal)\n\n\n5. Next-Step\
+      \ Recommendations\n\n- What information is still missing\n\n- What the engineer\
+      \ should provide next to continue the investigation\n\n\nConstraints:\n\n- Do\
+      \ not invent data.\n\n- Do not claim a root cause.\n\n- Be practical and aligned\
+      \ with real fab investigation workflows.\n\n- Use clear bullet points, not generic\
+      \ AI language."
